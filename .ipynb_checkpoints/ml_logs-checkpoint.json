@@ -1,0 +1,17 @@
+[
+    {
+        "timestamp": "2025-02-05 16:58:06",
+        "level": "info",
+        "message": "ML Model Training Started."
+    },
+    {
+        "timestamp": "2025-02-05 16:58:06",
+        "level": "info",
+        "message": "Training completed successfully with accuracy: 92%"
+    },
+    {
+        "timestamp": "2025-02-05 16:58:06",
+        "level": "error",
+        "message": "Model failed to load due to missing dependency."
+    }
+]

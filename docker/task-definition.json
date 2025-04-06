@@ -1,0 +1,23 @@
+{
+    "family": "ml-monitoring-task",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "512",
+    "memory": "1024",
+    "executionRoleArn": "arn:aws:iam::774305583360:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "fastapi-container",
+        "image": "774305583360.dkr.ecr.eu-north-1.amazonaws.com/ml-monitoring:latest",
+        "portMappings": [
+          {
+            "containerPort": 8080,
+            "hostPort": 8080,
+            "protocol": "tcp"
+          }
+        ],
+        "essential": true
+      }
+    ]
+  }
+  

@@ -1,0 +1,33 @@
+groups:
+- name: ModelPerformanceAlerts
+  rules:
+  - alert: ModelAccuracyLow
+    expr: accuracy < 0.90  # Replace 'accuracy' with your actual metric name
+    for: 5m
+    labels:
+      severity: critical
+      team: ml-team
+      metric_name: accuracy
+    annotations:
+      summary: "Model accuracy is below 90%"
+      description: "The model's accuracy has dropped below 90%. Retraining is recommended. Value: {{ $value }}"
+  - alert: ModelRMSEHigh
+    expr: n_rmse > 0.5 # Replace 'n_rmse' with your actual metric name
+    for: 5m
+    labels:
+      severity: warning
+      team: ml-team
+      metric_name: n_rmse
+    annotations:
+      summary: "Model RMSE is above 0.5"
+      description: "The model's RMSE has exceeded 0.5. Review performance. Value: {{ $value }}"
+
+  - name: example_alerts
+    rules:
+      - alert: TestAlert
+        expr: vector(1) == 1
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Test Alert"

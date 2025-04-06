@@ -1,0 +1,89 @@
+services:
+  prometheus:
+    image: prom/prometheus:v2.14.0
+    ports:
+      - 9090:9090
+    networks:
+      - internal
+    volumes:
+      - prometheus_volume:/prometheus/
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+
+  pushgateway:
+    image: prom/pushgateway:v1.0.0
+    networks:
+      - internal
+    ports:
+     - 9091:9091
+
+  grafana:
+    image: grafana/grafana:6.4.4
+    ports:
+      - 3000:3000
+    networks:
+      - internal
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana_volume:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=ml_monitor
+
+  loki:
+    image: grafana/loki:2.4.0
+    volumes:
+      - ./loki-config.yml:/etc/loki/loki-config.yml
+    ports:
+      - "3100:3100"
+    restart: unless-stopped
+    command: -config.file=/etc/loki/loki-config.yml
+    networks:
+      - loki  # Ensure Loki is in the same network as Promtail
+
+  promtail:
+    image: grafana/promtail:2.4.0
+    volumes:
+      - C:/Users/91966/ml_monitor/logs:/var/log  # Ensure logs are mapped correctly
+      - C:/Users/91966/ml_monitor/docker/promtail-config.yml:/etc/promtail/promtail-config.yml
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/promtail-config.yml
+    networks:
+      - loki 
+
+  fastapi:
+    container_name: fastapi_app
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "8080:8080"
+    
+    volumes:
+      - C:/Users/91966/ml_monitor/logs:/app/logs
+      - ./analyze_performance_automate.py:/app/analyze_performance_automate.py 
+      - ./retrain_model.py:/app/retrain_model.py # ✅ Mount script file
+      - fastapi_cache:/root/.cache/pip
+      - C:/Users/91966/ml_monitor/models:/app/models
+  # 🔥 Mount Windows logs folder to /app/logs in container
+    environment:
+      - LOGS_DIR=/app/logs
+      - OLLAMA_HOST=http://host.docker.internal:11434
+    depends_on:
+      - prometheus
+      - grafana
+    restart: always
+
+volumes:
+  prometheus_volume:
+    external: false
+  grafana_volume:
+    external: false
+  fastapi_cache:
+
+networks:
+  internal:
+  loki:

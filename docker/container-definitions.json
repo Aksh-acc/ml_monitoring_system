@@ -1,0 +1,24 @@
+[
+    {
+      "name": "fastapi",
+      "image": "774305583360.dkr.ecr.eu-north-1.amazonaws.com/ml-monitoring:latest",
+      "memory": 512,
+      "cpu": 256,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/ml-monitoring",
+          "awslogs-region": "eu-north-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+]
+  

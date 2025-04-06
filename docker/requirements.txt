@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+numpy
+pandas
+prometheus_client
+scikit-learn
+seaborn
+matplotlib
+requests
+ollama
+tensorflow
