@@ -81,8 +81,8 @@ Use `fetch_logs.py` to extract logs from storage.
 
 ## 🎥 Video Tutorials
 
-- [🚀 Full System Walkthrough](https://www.youtube.com/watch?v=RP2fcOHty1g)
-- [📈 Monitoring, Retraining & FastAPI](https://www.youtube.com/watch?v=RP2fcOHty1g)
+- [📈 Monitoring, Retraining & Automation](https://www.youtube.com/watch?v=hdWUDdzNtTA)
+- [🚀 FastAPI Walkthrough](https://www.youtube.com/watch?v=RP2fcOHty1g)
 
 ---
 
